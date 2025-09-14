@@ -6,9 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeBtn = document.querySelector('.close-btn');
     const contactForm = document.getElementById('contact-form');
     const popupForm = document.getElementById('popup-form');
-    const header = document.querySelector('.header');
 
-    // Mobile Menu Toggle
+    // Toggle mobile menu
     menuBtn.addEventListener('click', () => {
         navMenu.classList.toggle('active');
         menuBtn.classList.toggle('active');
@@ -21,39 +20,55 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Popup Open/Close
-    contactBtns.forEach(btn => btn.addEventListener('click', () => popupOverlay.classList.add('active')));
-    closeBtn.addEventListener('click', () => popupOverlay.classList.remove('active'));
-    popupOverlay.addEventListener('click', (e) => {
-        if (e.target === popupOverlay) popupOverlay.classList.remove('active');
+    // Open popup
+    contactBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            popupOverlay.classList.add('active');
+        });
     });
 
-    // Form Submission
+    // Close popup
+    closeBtn.addEventListener('click', () => {
+        popupOverlay.classList.remove('active');
+    });
+
+    popupOverlay.addEventListener('click', (e) => {
+        if (e.target === popupOverlay) {
+            popupOverlay.classList.remove('active');
+        }
+    });
+
+    // Form submit
     [contactForm, popupForm].forEach(form => {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             form.reset();
-            if (form.id === 'popup-form') popupOverlay.classList.remove('active');
-            alert('Заявка отправлена! Наш менеджер свяжется с вами.');
+            if (form.id === 'popup-form') {
+                popupOverlay.classList.remove('active');
+            }
         });
     });
 
-    // Header scroll
+    // Scroll header effect
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) header.classList.add('scrolled');
-        else header.classList.remove('scrolled');
+        const header = document.querySelector('.header');
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
     });
 
     // Fade-in sections
     const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('fade-in'); });
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in');
+            }
+        });
     }, { threshold: 0.2 });
-    document.querySelectorAll('.content-section').forEach(section => observer.observe(section));
 
-    // FAQ toggle
-    const faqQuestions = document.querySelectorAll('.faq-question');
-    faqQuestions.forEach(question => question.addEventListener('click', () => {
-        question.classList.toggle('active');
-        question.nextElementSibling.classList.toggle('active');
-    }));
+    document.querySelectorAll('.content-section').forEach(section => {
+        observer.observe(section);
+    });
 });
