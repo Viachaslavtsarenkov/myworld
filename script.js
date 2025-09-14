@@ -8,12 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const popupForm = document.getElementById('popup-form');
     const header = document.querySelector('.header');
 
-    /* ------------------ Мобильное меню ------------------ */
+    // ---------------------- Mobile Menu Toggle ----------------------
     menuBtn.addEventListener('click', () => {
         navMenu.classList.toggle('active');
         menuBtn.classList.toggle('active');
     });
 
+    // Close mobile menu when clicking a link
     document.querySelectorAll('.nav-menu a').forEach(link => {
         link.addEventListener('click', () => {
             navMenu.classList.remove('active');
@@ -21,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    /* ------------------ Popup ------------------ */
+    // ---------------------- Popup ----------------------
     contactBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             popupOverlay.classList.add('active');
@@ -38,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // ---------------------- Form Submission ----------------------
     [contactForm, popupForm].forEach(form => {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -45,11 +47,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (form.id === 'popup-form') {
                 popupOverlay.classList.remove('active');
             }
-            alert('Спасибо! Ваша заявка отправлена.');
+            // Можно добавить здесь fetch для реальной отправки
+            alert('Заявка отправлена! Наш менеджер свяжется с вами.');
         });
     });
 
-    /* ------------------ Scroll Header ------------------ */
+    // ---------------------- Header Scroll Effect ----------------------
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
             header.classList.add('scrolled');
@@ -58,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    /* ------------------ Fade-in Sections ------------------ */
+    // ---------------------- Fade-in Sections ----------------------
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -71,22 +74,13 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(section);
     });
 
-    /* ------------------ FAQ Toggle ------------------ */
+    // ---------------------- FAQ Toggle ----------------------
     const faqQuestions = document.querySelectorAll('.faq-question');
     faqQuestions.forEach(question => {
         question.addEventListener('click', () => {
+            question.classList.toggle('active');
             const answer = question.nextElementSibling;
-            const isActive = answer.classList.contains('active');
-
-            // Скрываем все ответы
-            document.querySelectorAll('.faq-answer').forEach(ans => ans.classList.remove('active'));
-            document.querySelectorAll('.faq-question').forEach(q => q.classList.remove('active'));
-
-            // Если не был активен, открываем текущий
-            if (!isActive) {
-                question.classList.add('active');
-                answer.classList.add('active');
-            }
+            answer.classList.toggle('active');
         });
     });
 });
