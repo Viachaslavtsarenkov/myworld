@@ -1,43 +1,84 @@
-// Мобильное меню
-const menuBtn = document.querySelector(".menu-btn");
-const sideMenu = document.getElementById("sideMenu");
-const closeBtn = sideMenu.querySelector(".close-btn");
+document.addEventListener('DOMContentLoaded', () => {
+    const menuBtn = document.querySelector('.menu-btn');
+    const navMenu = document.querySelector('.nav-menu');
+    const contactBtns = document.querySelectorAll('.contact-btn, .contact-btn-hero');
+    const popupOverlay = document.getElementById('popup-overlay');
+    const closeBtn = document.querySelector('.close-btn');
+    const contactForm = document.getElementById('contact-form');
+    const popupForm = document.getElementById('popup-form');
 
-if (menuBtn && sideMenu && closeBtn) {
-  menuBtn.addEventListener("click", () => sideMenu.classList.add("open"));
-  closeBtn.addEventListener("click", () => sideMenu.classList.remove("open"));
-  sideMenu.addEventListener("click", e => {
-    if(e.target.tagName === "A") sideMenu.classList.remove("open");
-  });
-}
-
-// Текущий год
-document.getElementById("year").textContent = new Date().getFullYear();
-
-// Анимация секций
-const animSections = document.querySelectorAll('.animate');
-
-function checkAnim() {
-  const triggerBottom = window.innerHeight * 0.85;
-  animSections.forEach(section => {
-    const top = section.getBoundingClientRect().top;
-    if(top < triggerBottom){
-      section.classList.add('show');
-    }
-  });
-}
-
-window.addEventListener('scroll', checkAnim);
-window.addEventListener('load', checkAnim);
-
-// Яндекс.Карта
-function initMap() {
-  ymaps.ready(function(){
-    var myMap = new ymaps.Map("map", {
-      center: [55.76, 37.64], // Москва
-      zoom: 10
+    // Toggle mobile menu
+    menuBtn.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        menuBtn.classList.toggle('active');
     });
-    myMap.geoObjects.add(new ymaps.Placemark([55.76, 37.64], { hintContent: 'Мой Мир' }));
-  });
-}
-window.addEventListener('load', initMap);
+
+    document.querySelectorAll('.nav-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            menuBtn.classList.remove('active');
+        });
+    });
+
+    // Open popup
+    contactBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            popupOverlay.classList.add('active');
+        });
+    });
+
+    // Close popup
+    closeBtn.addEventListener('click', () => {
+        popupOverlay.classList.remove('active');
+    });
+
+    popupOverlay.addEventListener('click', (e) => {
+        if (e.target === popupOverlay) {
+            popupOverlay.classList.remove('active');
+        }
+    });
+
+    // Form submit
+    [contactForm, popupForm].forEach(form => {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault(); // Предотвращаем реальную отправку
+            form.reset();
+            if (form.id === 'popup-form') {
+                popupOverlay.classList.remove('active');
+            }
+        });
+    });
+
+    // Scroll header effect
+    window.addEventListener('scroll', () => {
+        const header = document.querySelector('.header');
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+
+    // Fade-in sections
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in');
+            }
+        });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.content-section').forEach(section => {
+        observer.observe(section);
+    });
+
+    // FAQ toggle
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', () => {
+            question.classList.toggle('active');
+            const answer = question.nextElementSibling;
+            answer.classList.toggle('active');
+        });
+    });
+});
