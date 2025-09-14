@@ -3,7 +3,7 @@
     --primary-color: #0077b6;
     --secondary-color: #2a2a2a;
     --light-bg-color: #f0f4f8;
-    --light-alt-bg: #e0e7ef;
+    --light-alt-bg: #e8edf2;
     --dark-bg-color: #1a2a3a;
     --text-color: #333;
     --header-bg-color: #ffffff;
@@ -134,7 +134,7 @@ body {
     content: '';
     position: absolute;
     inset: 0;
-    background-color: rgba(0,0,0,0.5); /* затемнение */
+    background-color: rgba(0,0,0,0.5);
     z-index: 0;
 }
 
@@ -176,6 +176,7 @@ body {
     position: relative;
     padding: 5rem 2rem;
     overflow: hidden;
+    transition: background 1s ease;
 }
 
 .content-section .container {
@@ -184,11 +185,11 @@ body {
 }
 
 section:nth-child(odd) {
-    background-color: var(--light-bg-color);
+    background: linear-gradient(to bottom, var(--light-bg-color), var(--light-alt-bg));
 }
 
 section:nth-child(even) {
-    background-color: var(--light-alt-bg);
+    background: linear-gradient(to bottom, var(--light-alt-bg), var(--light-bg-color));
 }
 
 .content-section h2 {
@@ -200,6 +201,13 @@ section:nth-child(even) {
 
 .content-section p {
     text-align: center;
+}
+
+/* ---------------------- Icons ---------------------- */
+.advantage-card i, .service-card i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
 }
 
 /* ---------------------- Advantages & Services ---------------------- */
@@ -260,7 +268,7 @@ section:nth-child(even) {
 .team-photo-container img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* фотографии не обрезаются */
+    object-fit: cover;
 }
 
 .member-info h3 {
@@ -286,7 +294,7 @@ section:nth-child(even) {
 }
 
 .faq-question {
-    font-weight: 500;
+    font-weight: 400; /* исправлено, больше не жирное */
     font-size: 1.1rem;
     cursor: pointer;
     padding: 1rem 0;
