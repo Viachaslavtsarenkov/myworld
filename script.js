@@ -8,13 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const popupForm = document.getElementById('popup-form');
     const header = document.querySelector('.header');
 
-    // ---------------------- Mobile Menu Toggle ----------------------
+    // Mobile Menu Toggle
     menuBtn.addEventListener('click', () => {
         navMenu.classList.toggle('active');
         menuBtn.classList.toggle('active');
     });
 
-    // Close mobile menu when clicking a link
     document.querySelectorAll('.nav-menu a').forEach(link => {
         link.addEventListener('click', () => {
             navMenu.classList.remove('active');
@@ -22,65 +21,39 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ---------------------- Popup ----------------------
-    contactBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            popupOverlay.classList.add('active');
-        });
-    });
-
-    closeBtn.addEventListener('click', () => {
-        popupOverlay.classList.remove('active');
-    });
-
+    // Popup Open/Close
+    contactBtns.forEach(btn => btn.addEventListener('click', () => popupOverlay.classList.add('active')));
+    closeBtn.addEventListener('click', () => popupOverlay.classList.remove('active'));
     popupOverlay.addEventListener('click', (e) => {
-        if (e.target === popupOverlay) {
-            popupOverlay.classList.remove('active');
-        }
+        if (e.target === popupOverlay) popupOverlay.classList.remove('active');
     });
 
-    // ---------------------- Form Submission ----------------------
+    // Form Submission
     [contactForm, popupForm].forEach(form => {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             form.reset();
-            if (form.id === 'popup-form') {
-                popupOverlay.classList.remove('active');
-            }
-            // Можно добавить здесь fetch для реальной отправки
+            if (form.id === 'popup-form') popupOverlay.classList.remove('active');
             alert('Заявка отправлена! Наш менеджер свяжется с вами.');
         });
     });
 
-    // ---------------------- Header Scroll Effect ----------------------
+    // Header scroll
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
+        if (window.scrollY > 50) header.classList.add('scrolled');
+        else header.classList.remove('scrolled');
     });
 
-    // ---------------------- Fade-in Sections ----------------------
+    // Fade-in sections
     const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('fade-in');
-            }
-        });
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('fade-in'); });
     }, { threshold: 0.2 });
+    document.querySelectorAll('.content-section').forEach(section => observer.observe(section));
 
-    document.querySelectorAll('.content-section').forEach(section => {
-        observer.observe(section);
-    });
-
-    // ---------------------- FAQ Toggle ----------------------
+    // FAQ toggle
     const faqQuestions = document.querySelectorAll('.faq-question');
-    faqQuestions.forEach(question => {
-        question.addEventListener('click', () => {
-            question.classList.toggle('active');
-            const answer = question.nextElementSibling;
-            answer.classList.toggle('active');
-        });
-    });
+    faqQuestions.forEach(question => question.addEventListener('click', () => {
+        question.classList.toggle('active');
+        question.nextElementSibling.classList.toggle('active');
+    }));
 });
